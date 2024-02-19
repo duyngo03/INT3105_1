@@ -37,3 +37,38 @@ Sinh viên: Ngô Hoàng Duy - 21020293
 - VNC có thể hoạt động trên nhiều hệ điều hành, bao gồm Windows, macOS, Linux và nhiều hệ điều hành di động.
 - VNC có thể chậm hơn so với một số giải pháp truy cập từ xa khác, đặc biệt là khi mạng chậm hoặc không ổn định.
 - VNC hoạt động trên một mô hình client / server. 
+# Demo VNC
+## Cài đặt Desktop Environment xfce thông qua Docker và VNC
+B1: Cài đặt VNC Server, Desktop environment xfce thông qua Docker
+- Pull image ubuntu:
+```docker pull ubuntu:latest```
+- Chạy image ubuntu:
+```docker run -it --name vnc-xfce -p 5901:5901 -e USER=admin ubuntu:latest```
+- Cài các package cần thiết:
+```apt update -y && apt install vim xfce4 xfce4-goodies tightvncserver -y```
+- Khởi tạo VNC server và đặt password. Ví dụ duyngo03
+```vncserver```
+- Config VNC server:
+```
+vncserver -kill :1
+mv ~/.vnc/xstartup ~/.vnc/xstartup.bak
+vim ~/.vnc/xstartup
+```
+- Nhập nội dung sau vào file ~/.vnc/xstartup
+```
+xrdb $HOME/.Xresources
+startxfce4 &
+```
+- Sau khi nhập xong thì out file bằng lệnh ```:wq```
+- Cấp quyền thực thi cho file xstartup
+```
+chmod 777 ~/.vnc/xstartup
+```
+- Khởi động lại VNC server, sử dụng tham số ```-geometry``` để cấu hình độ phân giải màn hình
+```
+vncserver -geometry 1920x1080 :1
+```
+B2: Cài đặt VNC Viewer và mở trên cổng ```127.0.0.1:5901```
+Hình ảnh sau khi chạy thành công 
+![image](https://github.com/duyngo03/INT3105_1/assets/100525536/eeb8c520-fa94-4d8d-9ef8-3fc75af7f27e)
+
